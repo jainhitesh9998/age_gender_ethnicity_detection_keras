@@ -3,6 +3,7 @@ import os
 import pandas as pd
 import csv
 import numpy as np
+import cv2
 
 '''
 return list of all files with a particular extension in a list
@@ -58,3 +59,8 @@ def read_csv(file_name):
             _ = [convert_int(x) for x in row]
             output_list.append(_)
     return output_list
+
+def read_image(path):
+    #print (path)
+    image = cv2.imread(path)
+    return cv2.resize(image, (64,64))
