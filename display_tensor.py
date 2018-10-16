@@ -16,4 +16,4 @@ def printTensors(pb_file):
         print(op.name)
 
 
-printTensors("path-to-my-pbfile.pb")
+printTensors("weights/my_model.pb")
