@@ -1,4 +1,6 @@
 import tensorflow as tf
+from wide_resnet import wide_resnet
+
 def freeze_session(session, keep_var_names=None, output_names=None, clear_devices=True):
     """
     Freezes the state of a session into a pruned computation graph.
@@ -34,7 +36,11 @@ def freeze_session(session, keep_var_names=None, output_names=None, clear_device
 
 from keras import backend as K
 from keras.models import load_model
-model = load_model('weights/model.h5')
+model = wide_resnet.WideResNet(image_size = 64,race = True, train_branch=False)()
+model.load_weights('weights/model_new.h5')
+model.summary()
+
+#model = load_model('weights/model.h5')
 frozen_graph = freeze_session(K.get_session(), output_names=[out.op.name for out in model.outputs])
 
 tf.train.write_graph(frozen_graph, "weights", "my_model.pb", as_text=False)
