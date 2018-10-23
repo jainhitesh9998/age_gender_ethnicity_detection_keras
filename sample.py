@@ -17,8 +17,8 @@ import common
 TRT_LOGGER = trt.Logger(trt.Logger.WARNING)
 
 class ModelData(object):
-    MODEL_FILE = os.path.join(os.path.dirname(__file__), "models/my_model.uff")
-    INPUT_NAME ="input_1"
+    MODEL_FILE = os.path.join(os.path.dirname(__file__), "my_model.uff")
+    INPUT_NAME ="input"
     INPUT_SHAPE = (3, 64, 64)
     OUTPUT_NAME  = ['import/gender_detection/Softmax', 'import/age_detection/Softmax', 'import/race/Softmax']
 
@@ -28,7 +28,9 @@ def build_engine(model_file):
         builder.max_workspace_size = common.GiB(1)
         # Parse the Uff Network
         parser.register_input(ModelData.INPUT_NAME, ModelData.INPUT_SHAPE)
-        parser.register_output(ModelData.OUTPUT_NAME)
+        parser.register_output(ModelData.OUTPUT_NAME[0])
+        parser.register_output(ModelData.OUTPUT_NAME[1])
+        parser.register_output(ModelData.OUTPUT_NAME[2])
         parser.parse(model_file, network)
         # Build and return an engine.
         return builder.build_cuda_engine(network)
