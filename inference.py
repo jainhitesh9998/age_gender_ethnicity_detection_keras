@@ -18,7 +18,7 @@ from tensorflow.contrib import tensorrt as trt
 import cv2
 batch_size = 1 # change to 128 when you use batch
 workspace_size_bytes = 1 << 30
-precision_mode = 'FP16' # use 'FP32' for K80
+precision_mode = 'FP32' # use 'FP32' for K80
 trt_gpu_ops = tf.GPUOptions(per_process_gpu_memory_fraction = 0.50)
 
 
@@ -54,12 +54,16 @@ with g2.as_default():
 with tf.Session(graph=g2, config=tf.ConfigProto(gpu_options=trt_gpu_ops)) as sess:
     image = cv2.imread('/workspace/age_gender_race_detection_keras/dataset/crop_part1/42_1_0_20170104235631908.jpg.chip.jpg')
     image = cv2.resize(image, (64, 64))
-    import numpy as np
-    image = np.expand_dims(image, axis=0)
+    #image = np.expand_dims(image, axis=0)
+    image_list = [image for i in range(2)]
+    image  = np.array(image_list)
+
     feed_dict = {
         trt_x: image
     }
-    start_time = time.process_time()
-    result = sess.run([trt_y1, trt_y2, trt_y3], feed_dict=feed_dict)
-    stop_time = time.process_time()
-    print(result)
+    for i in range(10):
+        start_time = time.process_time()
+        result = sess.run([trt_y1, trt_y2, trt_y3], feed_dict=feed_dict)
+        stop_time = time.process_time()
+        print(stop_time - start_time)
+    #print(result)
