@@ -73,7 +73,7 @@ class Sort:
                 _visibility = curr.get_visibility()
                 _genders = gender = np.average(np.array(curr.get_genders()), axis=0)
                 _ages = curr.get_ages()
-                url = 'https://us-central1-retailanalytics-d6ccf.cloudfunctions.net/api/persontracking/'
+                url = 'localhost:5000/data'
                 if ((_visibility) > 15):
                     face = trk.get_face()
                     out_dict = {
@@ -85,7 +85,7 @@ class Sort:
                     try:
                         payload = json.dumps(out_dict)
                         print(payload)
-                        r = requests.post(url, json = out_dict)
+                        #r = requests.post(url, json = out_dict)
                         print(r)
                     except:
                         print("error")
