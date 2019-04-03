@@ -1,1 +1,6 @@
 *.hdf5
+*.h5
+.idea
+.ipynb_checkpoints
+*.pyc
+__pycache__
